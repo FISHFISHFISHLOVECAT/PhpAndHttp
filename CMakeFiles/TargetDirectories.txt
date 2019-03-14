@@ -1,4 +1,3 @@
-/Users/junwuli/Desktop/socket_test/CMakeFiles/rebuild_cache.dir
-/Users/junwuli/Desktop/socket_test/CMakeFiles/edit_cache.dir
-/Users/junwuli/Desktop/socket_test/CMakeFiles/client.dir
-/Users/junwuli/Desktop/socket_test/CMakeFiles/server.dir
+/home/junwuli/Desktop/socket_test/CMakeFiles/edit_cache.dir
+/home/junwuli/Desktop/socket_test/CMakeFiles/rebuild_cache.dir
+/home/junwuli/Desktop/socket_test/CMakeFiles/server.dir

@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.13)
-add_executable(server server.cpp XTcp.cpp)
-add_executable(client client.cpp XTcp.cpp)
-add_definitions(-std=c++11)
+cmake_minimum_required(VERSION 3.5.1)
+SET(CMAKE_C_COMPILER g++)
+set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -march=native -O3 -pthread" )
+aux_source_directory(. DIR_SRCS)
+add_executable(server ${DIR_SRCS})
 include_directories(.)
-

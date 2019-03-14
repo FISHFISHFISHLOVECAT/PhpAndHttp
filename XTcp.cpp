@@ -20,29 +20,43 @@ bool XTcp::SetBlock(bool isblock)
     return true;
 }
 
-void XTcp::CreateSocket()
+bool XTcp::CreateSocket()
 {
     fd = socket(AF_INET, SOCK_STREAM, 0); //根据前两个参数推断
     if (fd == -1)
+    {
         std::cout << "Create socket failed" << std::endl;
+        return true;
+    } 
     else
+    {
         std::cout << "Create socket successfully" << std::endl;
+        return false;
+    }
+        
 }
 
-void XTcp::BindSocket(unsigned int port)
+bool XTcp::BindSocket(unsigned int port)
 {
     struct sockaddr_in addr; //定义一个更加方便的结构体
 
     bzero(&addr, sizeof(sockaddr_in));
     addr.sin_family = AF_INET;
-    addr.sin_addr.s_addr = inet_addr("192.168.1.122"); //由arpa/inet.h支持,字符串转换为长整型
+    addr.sin_addr.s_addr = inet_addr("10.211.55.5"); //由arpa/inet.h支持,字符串转换为长整型
     addr.sin_port = htons(port);                       ///</inet.h>转换成符合标准的数据
 
     errorFlag = bind(fd, (struct sockaddr *)&addr, sizeof(struct sockaddr));
     if (errorFlag == -1)
-        std::cout << "Bind socket failed" << std::endl;
+    {
+        std::cout << "Bind "<<port<<" socket failed" << std::endl;
+        return false;
+    }
     else
-        std::cout << "Bind socket successfully" << std::endl;
+    {
+        std::cout << "Bind "<<port<<" socket successfully" << std::endl;
+        return true;
+    }
+      
 }
 
 bool XTcp::ConnectSocket(const char *ip, unsigned int port, int seconds)
@@ -75,13 +89,20 @@ bool XTcp::ConnectSocket(const char *ip, unsigned int port, int seconds)
     return true;
 }
 
-void XTcp::ListenSocket()
+bool XTcp::ListenSocket()
 {
     errorFlag = listen(fd, 10);
     if (errorFlag == -1)
+    {
         std::cout << "Listen socket failed" << std::endl;
+        return false;
+    }
     else
+    {
         std::cout << "Listen socket successfully" << std::endl;
+        return true;
+    }
+       
 }
 
 XTcp XTcp::AcceptSocket()
@@ -100,6 +121,8 @@ XTcp XTcp::AcceptSocket()
         client_tcp.port = ntohs(client_addr.sin_port);
         printf("ip = %s,Port =%d\n", ip.c_str(), port);
     }
+   
+    
     return client_tcp;
 }
 

@@ -4,53 +4,34 @@
 #include <unistd.h>
 #include <string.h>
 #include <thread>
+#include <string>
+#include <regex>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include "XTcp.hpp"
+#include "XHttpServer.h"
 
-class TcpTread
-{
-public:
-    void Main()
-    {
-        char buf[1024] = "";
-        while (1)
-        {
-            t.Revc(buf, sizeof(buf));
-            if (strstr(buf, "quit") != NULL)
-            {
-                char re[] = "Server: quit sucessfully!";
-                send(t.fd, re, strlen(re) + 1, 0);
-                break;
-            }
+using namespace std;
 
-            std::cout << "Rec from clinet:" << buf;
-
-            char ok[] = "Server: ok\n";
-            t.Send(ok, sizeof(ok));
-        }
-        t.CloseSocket();
-        delete this;    
-    }
-    XTcp t;
-};
-
-int main()
+int main(int argc,char * argv[])//arg[0]包含完整路径程序名 arg[1]字符串1
 {
     XTcp Server;
     Server.CreateSocket();
-    Server.BindSocket(8080);
-    Server.ListenSocket();
-    while(1)
+    unsigned short port=8080;
+    if(argc>1)
     {
-        XTcp t = Server.AcceptSocket();
-        TcpTread * ptr=new TcpTread();
-        ptr->t=t;
-        std::thread th(&TcpTread::Main, ptr);
-        th.detach();
+        port=atoi(argv[1]);
     }
 
+    XHttpServer server;
+    if(!server.Start(port))
+    {
+        cout<<"服务端启动失败"<<endl;
+    }
+ 
+    getchar();
+    
     return 0;
 }
 
